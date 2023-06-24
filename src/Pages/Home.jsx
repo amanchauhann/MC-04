@@ -6,22 +6,16 @@ import { forumData } from "../Data/Data";
 import { useState } from "react";
 
 const Home = () => {
-    const { user_data: { posts } } = useData()
+    const { user_data } = useData()
     const [sort_by, set_sort_by] = useState("")
-    console.log("f", posts)
+    console.log("f", user_data)
     const sort_handler = (e) => {
         set_sort_by(e.target.value)
     }
-    const sorted = sort_by === "upvote" ? posts.sort(function (a, b) { return b.upvotes - a.upvotes }) : sort_by === "latest" ? posts.sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1) : posts
+    const sorted = sort_by === "upvote" ? user_data.posts.sort(function (a, b) { return b.upvotes - a.upvotes }) : sort_by === "latest" ? user_data.posts.sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1) : user_data.posts
     return (
         <>
             <Flex>
-                <Flex direction={"column"} bg={"grey"}>
-                    <Text p={4} outline={"1px solid black"} bg={"darkgray"}>Home</Text>
-                    <Text p={4} outline={"1px solid black"}>Explore</Text>
-                    <Text p={4} outline={"1px solid black"}>Bookmarks</Text>
-                    <Text p={4} outline={"1px solid black"}>Profile</Text>
-                </Flex>
                 <Box maxW={"50rem"}>
                     {sorted.map(each => <Post {...each} />)}
                 </Box>

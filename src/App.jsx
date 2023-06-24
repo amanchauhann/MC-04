@@ -5,16 +5,24 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Home from './Pages/Home'
 import DetailedPost from './Pages/DetailedPost'
+import Nav from './Components/Nav'
+import SideBar from './Components/SideBar'
+import { Flex } from '@chakra-ui/react'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/expand/:post_id" element={<DetailedPost />} />
-      </Routes>
+      <Nav />
+      <Flex>
+        <SideBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/expand/:post_id" element={<DetailedPost />} />
+        </Routes>
+      </Flex>
+
     </>
   )
 }
