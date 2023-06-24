@@ -12,7 +12,7 @@ const Home = () => {
     const sort_handler = (e) => {
         set_sort_by(e.target.value)
     }
-    const sorted = sort_by === "upvote" ? posts.sort(function (a, b) { return a.upvotes - b.upvotes }) : sort_by === "latest" ? posts.sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1) : posts
+    const sorted = sort_by === "upvote" ? posts.sort(function (a, b) { return b.upvotes - a.upvotes }) : sort_by === "latest" ? posts.sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1) : posts
     return (
         <>
             <Flex>
