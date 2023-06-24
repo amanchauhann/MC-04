@@ -4,16 +4,44 @@ import { useData } from "../Context/Context";
 import { useState } from "react";
 import { Link } from 'react-router-dom'
 
-const Post = ({ upvotes, picUrl, username, post, postDescription, tags, postId }) => {
+const Post = ({ upvotes, picUrl, username, post, postDescription, tags, postId, createdAt }) => {
     const [is_bookmarked, set_is_bookmarkeed] = useState(false)
     const { upvote_handle, downvote_handle } = useData(true)
+    const [hours_ago, set_hours_ago] = useState(0)
 
     const toggle_bookmark = () => {
         set_is_bookmarkeed(prev => !prev)
     }
+
+    const getTimeAgo = (date) => {
+        const now = new Date();
+        const created = new Date(date);
+        // console.log("oooo", created)
+        const timeDiff = now.getTime() - created.getTime();
+
+        const seconds = Math.floor(timeDiff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        // set_hours_ago(hours)
+
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) {
+            return `${days} day${days === 1 ? '' : 's'} ago`;
+        } else if (hours > 0) {
+            return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+        } else if (minutes > 0) {
+            return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+        } else {
+            return `${seconds} second${seconds === 1 ? '' : 's'} ago`;
+        }
+    };
+    const timeAgo = getTimeAgo(createdAt);
+    // console.log("lklk", timeAgo)
+
     return (
         <>
-            <Flex p={5} gap={4} border={"1px solid red"}>
+            <Flex m={2} p={5} gap={4} border={"1px solid grey"}>
                 <Flex direction={"column"} align={"center"}>
                     <div onClick={() => upvote_handle(postId)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-square" viewBox="0 0 16 16">
@@ -32,7 +60,7 @@ const Post = ({ upvotes, picUrl, username, post, postDescription, tags, postId }
                 <Flex direction={"column"} gap={5}>
                     <Flex gap={"10px"}>
                         <Avatar src={picUrl} />
-                        <Text>Posted by: <span>@{username}</span></Text>
+                        <Text>Posted by: <span>@{username}</span> <span>▪️{timeAgo}</span></Text>
                     </Flex>
 
                     <Text fontWeight={500} fontSize={"xl"}>{post}</Text>
